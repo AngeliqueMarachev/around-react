@@ -1,25 +1,11 @@
 import React from "react";
 
-function Main() {
-    function handleEditAvatarClick() {
-        const avatarChangePopup = document.querySelector('.popup_type_avatar-change');
-        avatarChangePopup.classList.add('popup_open');
-    }
-
-    function handleEditProfileClick() {
-        const avatarChangePopup = document.querySelector('.popup_type_profile');
-        avatarChangePopup.classList.add('popup_open');
-    }
-
-    function handleAddPlaceClick() {
-        const avatarChangePopup = document.querySelector('.popup_type_add-card');
-        avatarChangePopup.classList.add('popup_open');
-    }
+function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
 
     return (
         <main className="page__content">
             <section className="profile">
-                <div onClick={handleEditAvatarClick} className="profile__avatar-container">
+                <div className="profile__avatar-container" onClick={onEditAvatarClick} >
                     <img
                         className="profile__avatar"
                         id="avatar"
@@ -30,12 +16,11 @@ function Main() {
                 <div className="profile__info">
                     <h1 className="profile__name">Jacques Cousteau</h1>
                     <p className="profile__occupation">Explorer</p>
-                    <button type="button" className="profile__edit-button"></button>
-                    <button onClick={handleEditProfileClick} className="profile__edit-button"></button>
+               
+                    <button type="button" className="profile__edit-button" onClick={onEditProfileClick}></button>
                 </div>
                 <div>
-                    <button onClick={handleAddPlaceClick} className="profile__add-button" type="button" ></button>
-
+                    <button type="button"  className="profile__add-button"onClick={onAddPlaceClick}></button>
                 </div>
             </section>
         
