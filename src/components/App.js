@@ -18,7 +18,7 @@ function App() {
   }
 
   function handleEditProfileClick() {
-    setIsEditAvatarPopupOpen(true);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
@@ -140,7 +140,7 @@ function App() {
       ></PopupWithForm>
 
       {/* <ImagePopup card={selectedCard} onClose={closeAllPopups}></ImagePopup> */}
-      <ImagePopup />
+      {/* <ImagePopup /> */}
 
     </div>
   );
