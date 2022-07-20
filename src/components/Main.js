@@ -1,18 +1,36 @@
 import React from "react";
+import api from "../utils/api.js";
 
 function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
+    const [userName, setUserName] = React.useState();
+    const [userDescription, setUserDescription] = React.useState();
+    const [userAvatar, setUserAvatar] = React.useState();
+    // const [cards, setCards] = React.useState([]);
+
+    React.useEffect(() => {
+        api.getUserInfo().then(data => {
+            setUserName(data.name);
+            setUserDescription(data.about);
+            setUserAvatar(data.avatar);
+        //   updateLoading(false);
+        });
+      });
+
+    const imageStyle ={ backgroundImage: `url(${userAvatar})` };
 
     return (
         <main className="page__content">
             <section className="profile">
-                <div className="profile__avatar-container" onClick={onEditAvatarClick} >
+
+                <div className="profile__avatar-container" onClick={onEditAvatarClick} style={imageStyle}>
                     <img
                         className="profile__avatar"
                         id="avatar"
-                        src=" "
+                        src={userAvatar}
                         alt="profile avatar"
                     />
                 </div>
+
                 <div className="profile__info">
                     <h1 className="profile__name">Jacques Cousteau</h1>
                     <p className="profile__occupation">Explorer</p>

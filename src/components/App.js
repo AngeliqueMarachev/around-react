@@ -58,26 +58,26 @@ function App() {
             className="popup__input popup__input_type_name"
             id="name-input"
             type="text"
-            minlength="2"
-            maxlength="40"
+            minLength="2"
+            maxLength="40"
             name="user"
             placeholder="Name"
             required
           />
-          <span id="name-input-error" class="popup__input-error"></span>
+          <span id="name-input-error" className="popup__input-error"></span>
         </label>
         <label className="popup__label">
           <input
             className="popup__input popup__input_type_occupation"
             id="occupation-input"
             type="text"
-            minlength="2"
-            maxlength="200"
+            minLength="2"
+            maxLength="200"
             name="occupation"
             placeholder="About me"
             required
           />
-          <span id="occupation-input-error" class="popup__input-error"></span>
+          <span id="occupation-input-error" className="popup__input-error"></span>
         </label>
       </PopupWithForm>
 
@@ -87,20 +87,20 @@ function App() {
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
-        <label class="popup__label">
+        <label className="popup__label">
           <input
             className="popup__input popup__input_type_title"
             id="title-input"
             type="text"
-            minlength="1"
-            maxlength="30"
+            minLength="1"
+            maxLength="30"
             name="name"
             placeholder="Title"
             required
           />
-          <span id="title-input-error" class="popup__input-error"></span>
+          <span id="title-input-error" className="popup__input-error"></span>
         </label>
-        <label class="popup__label">
+        <label className="popup__label">
           <input
             className="popup__input popup__input_type_link"
             id="link-input"
@@ -109,7 +109,7 @@ function App() {
             placeholder="Image link"
             required
           />
-          <span id="link-input-error" class="popup__input-error"></span>
+          <span id="link-input-error" className="popup__input-error"></span>
         </label>
       </PopupWithForm>
 
@@ -128,7 +128,7 @@ function App() {
             placeholder="Picture link"
             required
           />
-          <span id="avatar-input-error" class="popup__input-error"></span>
+          <span id="avatar-input-error" className="popup__input-error"></span>
         </label>
       </PopupWithForm>
 
