@@ -13,8 +13,6 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick, onCardCl
             setUserName(data.name);
             setUserDescription(data.about);
             setUserAvatar(data.avatar);
-        //   updateLoading(false);
-            console.log(userName, userDescription, userAvatar);
         });
 
         api.getInitialCards().then((data) => {
@@ -27,7 +25,6 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick, onCardCl
     return (
         <main className="page__content">
             <section className="profile">
-
                 <div className="profile__avatar-container" onClick={onEditAvatarClick} style={imageStyle}>
                     <img
                         className="profile__avatar"
@@ -36,11 +33,9 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick, onCardCl
                         alt="profile avatar"
                     />
                 </div>
-
                 <div className="profile__info">
                     <h1 className="profile__name">{userName}</h1>
                     <p className="profile__occupation">{userDescription}</p>
-               
                     <button type="button" className="profile__edit-button" onClick={onEditProfileClick}></button>
                 </div>
                 <div>

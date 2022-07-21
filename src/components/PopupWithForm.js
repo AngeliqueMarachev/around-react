@@ -11,7 +11,7 @@ function PopupWithForm({
                     <button type="button" className="popup__close" onClick={onClose}></button>
                     <h3 className="popup__title">{title}</h3>
                     {children}
-                        <button type="submit" className="button popup__button">{buttonText}</button>
+                        <button type="submit" className="button popup__button">{buttonText} onClick={onClose}</button>
                 </form>
             </div>
             </div>

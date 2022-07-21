@@ -4,15 +4,13 @@ class Api {
         this._headers = headers;
     }
 
-
     _checkResponse(res) {
-        {
-          if (!res.ok) {
+        if (!res.ok) {
             return Promise.reject(`${res.status} error!`);
           }
           return res.json();
         }
-      }
+      
 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
