@@ -1,11 +1,12 @@
 import React from "react";
 import api from "../utils/api.js";
+import Card from "./Card";
 
-function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
+function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick, onCardClick }) {
     const [userName, setUserName] = React.useState();
     const [userDescription, setUserDescription] = React.useState();
     const [userAvatar, setUserAvatar] = React.useState();
-    // const [cards, setCards] = React.useState([]);
+    const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
         api.getUserInfo().then(data => {
@@ -13,8 +14,13 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
             setUserDescription(data.about);
             setUserAvatar(data.avatar);
         //   updateLoading(false);
+            console.log(userName, userDescription, userAvatar);
         });
-      });
+
+        api.getInitialCards().then((data) => {
+            setCards(data);
+        });
+      }, []);
 
     const imageStyle ={ backgroundImage: `url(${userAvatar})` };
 
@@ -32,8 +38,8 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
                 </div>
 
                 <div className="profile__info">
-                    <h1 className="profile__name">Jacques Cousteau</h1>
-                    <p className="profile__occupation">Explorer</p>
+                    <h1 className="profile__name">{userName}</h1>
+                    <p className="profile__occupation">{userDescription}</p>
                
                     <button type="button" className="profile__edit-button" onClick={onEditProfileClick}></button>
                 </div>
@@ -43,7 +49,11 @@ function Main({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick }) {
             </section>
         
             <section className="gallery">
-                <ul className="gallery__grid"></ul>
+                <ul className="gallery__grid">
+                    {cards.map((card) => 
+                        <Card key={card._id} card={card} onCardClick={onCardClick}/>
+                    )}   
+                </ul>
             </section>
         </main>
     );

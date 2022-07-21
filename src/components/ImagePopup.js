@@ -7,7 +7,7 @@ function ImagePopup({ card }) {
                 <button type="button" className="popup__close"></button>
                 <img alt={card ? card.name : ''} src={card ? card.link : ''} className="popup__image" />
                 <p className="popup__caption">{card ? card.name : ''}</p>
-                {/* <button type="button" aria-label="Close" className="popup__close popup__close_preview"></button> */}
+                <button type="button" aria-label="Close" className="popup__close popup__close_preview"></button>
             </div>
         </div>
     );
