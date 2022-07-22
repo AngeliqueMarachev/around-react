@@ -26,8 +26,8 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-    function handleCardClick(card) {
-   setSelectedCard(card)
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   function closeAllPopups() {
@@ -46,14 +46,13 @@ function App() {
         onAddPlaceClick={handleAddPlaceClick}
         onCardClick={handleCardClick}
       />
-  
+
       <PopupWithForm
         title="Edit Profile"
-        name="profile-form" //"edit"
+        name="profile-form"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
-        
         <label className="popup__label">
           <input
             className="popup__input popup__input_type_name"
@@ -78,13 +77,16 @@ function App() {
             placeholder="About me"
             required
           />
-          <span id="occupation-input-error" className="popup__input-error"></span>
+          <span
+            id="occupation-input-error"
+            className="popup__input-error"
+          ></span>
         </label>
       </PopupWithForm>
 
       <PopupWithForm
         title="New Place"
-        name="new-place" //"new-card"
+        name="new-place"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
@@ -116,7 +118,7 @@ function App() {
 
       <PopupWithForm
         title="Change profile picture"
-        name="new-avatar" //"owner-avatar"
+        name="new-avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       >
@@ -135,15 +137,14 @@ function App() {
 
       <PopupWithForm
         title="Are you sure?"
-        name="delete-confirm" //"remove-card"
+        name="delete-confirm"
         buttonText="Yes"
         onClose={closeAllPopups}
       ></PopupWithForm>
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      
-      <Footer />
 
+      <Footer />
     </div>
   );
 }
