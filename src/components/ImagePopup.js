@@ -5,8 +5,8 @@ function ImagePopup({ card, onClose }) {
     <div className={`popup popup_type_preview ${card ? "popup_open" : ""}`}>
       <div className="popup__content popup__content_content_preview">
         <img
-          src={`${card ? card.link : "#"}`}
-          alt="#"
+          src={`${card ? card.link : ""}`}
+          alt={`${card ? card.name : ""}`}
           className="popup__image"
         />
         <p className="popup__caption">{`${card ? card.name : ""}`}</p>

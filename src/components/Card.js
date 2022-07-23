@@ -16,7 +16,7 @@ export default function Card({ card, onCardClick }) {
         alt={`${card.name}`}
         onClick={handleClick}
       />
-      <button type="button" class="gallery__delete-button"></button>
+      <button type="button" className="gallery__delete-button"></button>
       <div className="gallery__info">
         <h2 className="gallery__text">{card.name}</h2>
         <div className="gallery__likes-container">

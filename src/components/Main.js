@@ -8,21 +8,27 @@ function Main({
   onEditAvatarClick,
   onCardClick,
 }) {
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setUserName(data.name);
-      setUserDescription(data.about);
-      setUserAvatar(data.avatar);
-    });
+    api
+      .getUserInfo()
+      .then((data) => {
+        setUserName(data.name);
+        setUserDescription(data.about);
+        setUserAvatar(data.avatar);
+      })
+      .catch();
 
-    api.getInitialCards().then((data) => {
-      setCards(data);
-    });
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch();
   }, []);
 
   const imageStyle = { backgroundImage: `url(${userAvatar})` };
@@ -49,14 +55,14 @@ function Main({
             type="button"
             className="profile__edit-button"
             onClick={onEditProfileClick}
-          ></button>
+          />
         </div>
         <div>
           <button
             type="button"
             className="profile__add-button"
             onClick={onAddPlaceClick}
-          ></button>
+          />
         </div>
       </section>
 
