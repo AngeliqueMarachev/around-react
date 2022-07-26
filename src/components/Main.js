@@ -21,14 +21,14 @@ function Main({
         setUserDescription(data.about);
         setUserAvatar(data.avatar);
       })
-      .catch();
+      .catch(() => console.log('something went wrong'));
 
     api
       .getInitialCards()
       .then((data) => {
         setCards(data);
       })
-      .catch();
+      .catch(() => console.log('something went wrong'));
   }, []);
 
   const imageStyle = { backgroundImage: `url(${userAvatar})` };

@@ -11,7 +11,6 @@ export default function Card({ card, onCardClick }) {
     <li className="gallery__card">
       <img
         className="gallery__item"
-        style={cardStyle}
         src={card.link}
         alt={`${card.name}`}
         onClick={handleClick}
