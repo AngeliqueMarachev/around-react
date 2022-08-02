@@ -15,13 +15,17 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState(); //React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({});
 
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
-      setCurrentUser(res);
-      // setCurrentUser({ name: res.name, about: res.about, avatar: res.about });
-
+      // setCurrentUser(res);
+      setCurrentUser({
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar,
+        _id: res._id,
+      });
     })
     .catch(() => console.log('something went wrong'));
   }, []);
