@@ -9,6 +9,11 @@ function PopupWithForm({
   onClose,
 }) {
   return (
+    <PopupWithForm 
+    isOpen={isOpen} 
+    onClose={onClose} 
+    title="Edit profile" 
+    name="edit">
     <div className={`popup popup_type_${name} ${isOpen ? "popup_open" : ""}`}>
       <div className="popup__content">
         <form className="popup__form" name={name}>
@@ -21,6 +26,7 @@ function PopupWithForm({
         </form>
       </div>
     </div>
+    </PopupWithForm> 
   );
 }
 
