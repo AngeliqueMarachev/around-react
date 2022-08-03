@@ -7,7 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
-// import EditProfilePopup from "./EditProfilePopup";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -22,13 +22,13 @@ function App() {
     api
       .getUserInfo()
       .then((res) => {
-        setCurrentUser(res);
-        // setCurrentUser({
-        //   name: res.name,
-        //   about: res.about,
-        //   avatar: res.avatar,
-        //   _id: res._id,
-        // });
+        // setCurrentUser(res);
+        setCurrentUser({
+          name: res.name,
+          about: res.about,
+          avatar: res.avatar,
+          _id: res._id,
+        });
       })
       .catch(() => console.log("something went wrong"));
   }, []);
@@ -74,7 +74,7 @@ function App() {
           onCardClick={handleCardClick}
         />
 
-        <PopupWithForm
+        {/* <PopupWithForm
         title="Edit Profile"
         name="profile-form"
         isOpen={isEditProfilePopupOpen}
@@ -109,13 +109,13 @@ function App() {
             className="popup__input-error"
           ></span>
         </label>
-      </PopupWithForm>
+      </PopupWithForm> */}
         
-        {/* <EditProfilePopup
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           // onUpdateUser={handleUpdateUser}
-        /> */}
+        />
 
         <PopupWithForm
           title="New Place"

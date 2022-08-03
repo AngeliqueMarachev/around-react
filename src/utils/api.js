@@ -80,18 +80,18 @@ class Api {
           method: 'DELETE',
           headers: this._headers,
         }).then(res => this._checkResponse(res));
-     }
+    }  
     
      changeLikeCardStatus(cardId, isLiked) {
-        const method = isLiked ? 'DELETE' : 'PUT';
+        const method = !isLiked ? 'DELETE' : 'PUT';
         return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
             method: method,
             headers: this._headers,
         }).then(res => this._checkResponse(res));
     }
-     
+
     // changeLikeCardStatus(cardId, isLiked) {
-    //     if (isLiked) {
+    //     if (!isLiked) {
     //         return this.removeLike(cardId)
     //     } else {
     //         return this.likeCard(cardId);

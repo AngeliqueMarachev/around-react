@@ -20,13 +20,13 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     onCardClick(card);
   };
 
-  // function handleLikeClick() {
-  //   onCardLike(card);
-  // };
+  function handleLikeClick() {
+    onCardLike(card);
+  };
 
-  // function handleDeleteClick() {
-  //   onCardDelete(card);
-  // };
+  function handleDeleteClick() {
+    onCardDelete(card);
+  };
 
   return (
     <li className="gallery__card">
@@ -36,16 +36,12 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         alt={`${card.name}`}
         onClick={handleClick}
       />
-      <button type="button" className={cardDeleteButtonClassName}
-        // onClick={handleDeleteClick}
-      ></button>
+      <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
       
       <div className="gallery__info">
         <h2 className="gallery__text">{card.name}</h2>
         <div className="gallery__likes-container">
-          <button type="button" className={cardLikeButtonClassName}
-            // onClick={handleLikeClick}
-          ></button>
+          <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick}></button>
           <div className="gallery__likes">{card.likes.length}</div>
         </div>
       </div>
