@@ -49,12 +49,33 @@ function App() {
     setSelectedCard(card);
   }
 
-  // function handleUpdateUser(userData) {
-  //   api.setUserInfo(userData).then(res => {
-  //     updateCurrentUser(res);
-  //     closeAllPopups();
-  //   });
+  // function handleUpdateUser(newData) { 
+  //   api
+  //     .editProfile(newData)
+  //     .then((res) => {
+  //       setCurrentUser({
+  //         name: res.name,
+  //         about: res.about,
+  //         avatar: res.avatar,
+  //         _id: res._id,
+  //       });
+  //     })
+  //     .catch(console.log);
+  //   closeAllPopups();
   // }
+
+  function handleUpdateUser({ name, about }) {
+    api.editProfile({ name, about })
+      .then(res => {
+        setCurrentUser({
+          name: res.name,
+          about: res.about,
+          avatar: res.avatar,
+         _id: res._id,
+        })
+        closeAllPopups();
+      });
+  }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -74,47 +95,10 @@ function App() {
           onCardClick={handleCardClick}
         />
 
-        {/* <PopupWithForm
-        title="Edit Profile"
-        name="profile-form"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__label">
-          <input
-            className="popup__input popup__input_type_name"
-            id="name-input"
-            type="text"
-            minLength="2"
-            maxLength="40"
-            name="user"
-            placeholder="Name"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-        </label>
-        <label className="popup__label">
-          <input
-            className="popup__input popup__input_type_occupation"
-            id="occupation-input"
-            type="text"
-            minLength="2"
-            maxLength="200"
-            name="occupation"
-            placeholder="About me"
-            required
-          />
-          <span
-            id="occupation-input-error"
-            className="popup__input-error"
-          ></span>
-        </label>
-      </PopupWithForm> */}
-        
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          // onUpdateUser={handleUpdateUser}
+          onUpdateUser={handleUpdateUser}
         />
 
         <PopupWithForm

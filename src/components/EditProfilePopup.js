@@ -2,10 +2,10 @@ import React from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup(props) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+  const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const currentUser = React.useContext(CurrentUserContext);
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -15,19 +15,22 @@ export default function EditProfilePopup(props) {
     setDescription(evt.target.value);
   }
 
+  // function handleChange(evt, stateUpdate) {
+  //   stateUpdate(evt.target.value || '')
+  // }
+
   function handleSubmit(e) {
     // Prevent the browser from navigating to the form address
     e.preventDefault();
 
     // Pass the values of the managed components to the external handler
-    props.onUpdateUser({
+    onUpdateUser({
       name,
       about: description,
     });
   }
 
-  // After loading the current user from the API
-  // their data will be used in managed components.
+  // After loading the current user from the API their data will be used in managed components.
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
@@ -37,8 +40,8 @@ export default function EditProfilePopup(props) {
     <PopupWithForm
       title="Edit Profile"
       name="profile-form"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
     >
       <label className="popup__label">
@@ -49,7 +52,7 @@ export default function EditProfilePopup(props) {
           minLength="2"
           maxLength="40"
           name="user"
-          value={name}
+          value={name || ""}
           placeholder="Name"
           required
           onChange={handleNameChange}
@@ -64,7 +67,7 @@ export default function EditProfilePopup(props) {
           minLength="2"
           maxLength="200"
           name="occupation"
-          value={description}
+          value={description || ""}
           placeholder="About me"
           required
           onChange={handleDescriptionChange}
