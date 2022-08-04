@@ -8,6 +8,7 @@ import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -49,33 +50,35 @@ function App() {
     setSelectedCard(card);
   }
 
-  // function handleUpdateUser(newData) { 
-  //   api
-  //     .editProfile(newData)
-  //     .then((res) => {
-  //       setCurrentUser({
-  //         name: res.name,
-  //         about: res.about,
-  //         avatar: res.avatar,
-  //         _id: res._id,
-  //       });
-  //     })
-  //     .catch(console.log);
-  //   closeAllPopups();
-  // }
-
   function handleUpdateUser({ name, about }) {
-    api.editProfile({ name, about })
-      .then(res => {
-        setCurrentUser({
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-         _id: res._id,
-        })
-        closeAllPopups();
+    api.editProfile({ name, about }).then((res) => {
+      setCurrentUser({
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar,
+        _id: res._id,
       });
-  }
+    })
+      .catch(() => console.log("something went wrong"))
+      .finally(() => {
+        closeAllPopups();
+  }) 
+    };
+
+  
+
+  function handleUpdateAvatar({ avatar }) {
+    api.setUserAvatar(avatar).then((res) => {
+      setCurrentUser({
+        ...currentUser, avatar: res.avatar
+
+      });
+    })
+      .catch(() => console.log("something went wrong"))
+      .finally(() => {
+        closeAllPopups();
+  }) 
+    };
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -133,7 +136,7 @@ function App() {
           </label>
         </PopupWithForm>
 
-        <PopupWithForm
+        {/* <PopupWithForm
           title="Change profile picture"
           name="new-avatar"
           isOpen={isEditAvatarPopupOpen}
@@ -150,7 +153,13 @@ function App() {
             />
             <span id="avatar-input-error" className="popup__input-error"></span>
           </label>
-        </PopupWithForm>
+        </PopupWithForm> */}
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <PopupWithForm
           title="Are you sure?"

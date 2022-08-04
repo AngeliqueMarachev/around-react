@@ -15,10 +15,6 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     setDescription(evt.target.value);
   }
 
-  // function handleChange(evt, stateUpdate) {
-  //   stateUpdate(evt.target.value || '')
-  // }
-
   function handleSubmit(e) {
     // Prevent the browser from navigating to the form address
     e.preventDefault();
