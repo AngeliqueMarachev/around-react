@@ -9,6 +9,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -21,43 +22,25 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser({
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-          _id: res._id,
-        });
-      })
+    api.getUserInfo().then((res) => {
+      setCurrentUser({
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar,
+        _id: res._id,
+      });
+    });
     api
       .getCardsList()
-      .then(data => {
+      .then((data) => {
         setCards(data);
         // .getCardsList()
         // .then(res => {
         // const formattedCards = res.map((card) => ({title: card.name, url: card.link, etc}))
         //   setCards(formattedCards);
       })
-      .catch(() => console.log('something went wrong'));
+      .catch(() => console.log("something went wrong"));
   }, []);
-
-  function handleCardLike(card) {
-    // Check one more time if this card was already liked
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
-    
-    // Send a request to the API and getting the updated card data
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
-    });
-  }
-
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards(cards.filter(stateCard => stateCard !== card));
-    });
-  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -73,6 +56,26 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+  }
+
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+
+    // Send a request to the API and getting the updated card data
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards(cards.filter((stateCard) => stateCard !== card));
+    });
   }
 
   function handleUpdateUser({ name, about }) {
@@ -107,6 +110,19 @@ function App() {
       });
   }
 
+  function handleAddPlaceSubmit(name, url) {
+    api
+      .addCard(name, url)
+      .then((res) => {
+        //console.log(res)
+        setCards([res, ...cards]); //res.data
+      })
+      .catch(() => console.log("something went wrong"))
+      .finally(() => {
+        closeAllPopups();
+      });
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -134,7 +150,7 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
+        {/* <PopupWithForm
           title="New Place"
           name="new-place"
           isOpen={isAddPlacePopupOpen}
@@ -164,26 +180,13 @@ function App() {
             />
             <span id="link-input-error" className="popup__input-error"></span>
           </label>
-        </PopupWithForm>
-
-        {/* <PopupWithForm
-          title="Change profile picture"
-          name="new-avatar"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        >
-          <label className="popup__label">
-            <input
-              className="popup__input popup__input_type_link"
-              id="avatar-input"
-              type="url"
-              name="avatar"
-              placeholder="Picture link"
-              required
-            />
-            <span id="avatar-input-error" className="popup__input-error"></span>
-          </label>
         </PopupWithForm> */}
+
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+        />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}

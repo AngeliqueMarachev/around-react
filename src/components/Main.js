@@ -12,9 +12,6 @@ function Main({
   onCardLike,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  
-  // const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
   
   return (
     <main className="page__content">
@@ -22,7 +19,6 @@ function Main({
         <div
           className="profile__avatar-container"
           onClick={onEditAvatarClick}
-          // style={imageStyle}
         >
           <img
             className="profile__avatar"
