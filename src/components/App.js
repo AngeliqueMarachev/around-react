@@ -18,12 +18,12 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api
       .getUserInfo()
       .then((res) => {
-        // setCurrentUser(res);
         setCurrentUser({
           name: res.name,
           about: res.about,
@@ -31,8 +31,33 @@ function App() {
           _id: res._id,
         });
       })
-      .catch(() => console.log("something went wrong"));
+    api
+      .getCardsList()
+      .then(data => {
+        setCards(data);
+        // .getCardsList()
+        // .then(res => {
+        // const formattedCards = res.map((card) => ({title: card.name, url: card.link, etc}))
+        //   setCards(formattedCards);
+      })
+      .catch(() => console.log('something went wrong'));
   }, []);
+
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
+    
+    // Send a request to the API and getting the updated card data
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+    });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards(cards.filter(stateCard => stateCard !== card));
+    });
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -51,34 +76,36 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
-    api.editProfile({ name, about }).then((res) => {
-      setCurrentUser({
-        name: res.name,
-        about: res.about,
-        avatar: res.avatar,
-        _id: res._id,
-      });
-    })
+    api
+      .editProfile({ name, about })
+      .then((res) => {
+        setCurrentUser({
+          name: res.name,
+          about: res.about,
+          avatar: res.avatar,
+          _id: res._id,
+        });
+      })
       .catch(() => console.log("something went wrong"))
       .finally(() => {
         closeAllPopups();
-  }) 
-    };
-
-  
+      });
+  }
 
   function handleUpdateAvatar({ avatar }) {
-    api.setUserAvatar(avatar).then((res) => {
-      setCurrentUser({
-        ...currentUser, avatar: res.avatar
-
-      });
-    })
+    api
+      .setUserAvatar(avatar)
+      .then((res) => {
+        setCurrentUser({
+          ...currentUser,
+          avatar: res.avatar,
+        });
+      })
       .catch(() => console.log("something went wrong"))
       .finally(() => {
         closeAllPopups();
-  }) 
-    };
+      });
+  }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -92,10 +119,13 @@ function App() {
       <div className="page">
         <Header />
         <Main
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
           onEditAvatarClick={handleEditAvatarClick}
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          cards={cards}
         />
 
         <EditProfilePopup

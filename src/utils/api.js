@@ -12,7 +12,7 @@ class Api {
         }
       
 
-    getInitialCards() {
+    getCardsList() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers
         }).then(res => this._checkResponse(res));
