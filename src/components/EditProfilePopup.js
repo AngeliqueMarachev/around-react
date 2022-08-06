@@ -6,18 +6,28 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [isNameInputValid, setIsNameInputValid] = React.useState(false);
+  const [isAboutInputValid, setIsAboutInputValid] = React.useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [aboutErrorMessage, setAboutErrorMessage] = React.useState('');
 
-  function handleNameChange(evt) {
-    setName(evt.target.value);
+
+  // function handleNameChange(evt) {
+  //   setName(evt.target.value);
+  // }
+
+  // function handleDescriptionChange(evt) {
+  //   setDescription(evt.target.value);
+  // }
+
+  function handleChange(evt, stateUpdater, validityUpdater) {
+    stateUpdater(evt.target.value);
+    validityUpdater(evt);
   }
-
-  function handleDescriptionChange(evt) {
-    setDescription(evt.target.value);
-  }
-
-  function handleSubmit(e) {
+  
+  function handleSubmit(evt) {
     // Prevent the browser from navigating to the form address
-    e.preventDefault();
+    evt.preventDefault();
 
     // Pass the values of the managed components to the external handler
     onUpdateUser({
@@ -26,11 +36,31 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
     });
   }
 
+  function checkNameInputValidity(evt) {
+    if (!evt.target.validity.valid) {
+      setIsNameInputValid(false);
+      setNameErrorMessage(evt.target.validationMessage);
+    } else {
+      setIsNameInputValid(true);
+      setNameErrorMessage('');
+    }
+  }
+
+  function checkAboutInputValidity(evt) {
+    if (!evt.target.validity.valid) {
+      setIsAboutInputValid(false);
+      setAboutErrorMessage(evt.target.validationMessage);
+    } else {
+      setIsAboutInputValid(true);
+      setAboutErrorMessage('');
+    }
+  }
+
   // After loading the current user from the API their data will be used in managed components.
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   return (
     <PopupWithForm
@@ -40,6 +70,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText={`${isLoading ? 'Saving' : 'Save'}`}
+      isInvalid={!(isNameInputValid && isAboutInputValid)}
     >
       <label className="popup__label">
         <input
@@ -52,9 +83,13 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
           value={name || ""}
           placeholder="Name"
           required
-          onChange={handleNameChange}
+          onChange={evt => handleChange(evt, setName, checkNameInputValidity)}
         />
-        <span id="name-input-error" className="popup__input-error"></span>
+        <span
+          id="avatar-input-error"
+          className={`popup__input-error ${!isNameInputValid && 'popup__error_visible'}`}>
+          {nameErrorMessage}
+        </span>
       </label>
       <label className="popup__label">
         <input
@@ -67,9 +102,13 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
           value={description || ""}
           placeholder="About me"
           required
-          onChange={handleDescriptionChange}
+          onChange={evt => handleChange(evt, setDescription, checkAboutInputValidity)}
         />
-        <span id="occupation-input-error" className="popup__input-error"></span>
+        <span
+          id="avatar-input-error"
+          className={`popup__input-error ${!isAboutInputValid && 'popup__error_visible'}`}>
+          {aboutErrorMessage}
+        </span>
       </label>
     </PopupWithForm>
   );
