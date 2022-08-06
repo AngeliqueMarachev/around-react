@@ -4,13 +4,22 @@ import PopupWithForm from "./PopupWithForm";
 export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
   const [cardName, setCardName] = React.useState("");
   const [link, setLink] = React.useState("");
+  const [isTitleInputValid, setIsTitleInputValid] = React.useState(false);
+  const [isLinkInputValid, setIsLinkInputValid] = React.useState(false);
+  const [titleErrorMessage, setTitleErrorMessage] = React.useState('');
+  const [linkErrorMessage, setLinkErrorMessage] = React.useState('');
 
-  function handlePlaceChange(evt) {
-    setCardName(evt.target.value);
-  }
+  // function handlePlaceChange(evt) {
+  //   setCardName(evt.target.value);
+  // }
 
-  function handlelinkChange(evt) {
-    setLink(evt.target.value);
+  // function handlelinkChange(evt) {
+  //   setLink(evt.target.value);
+  // }
+
+  function handleChange(evt, stateUpdater, validityUpdater) {
+    stateUpdater(evt.target.value);
+    validityUpdater(evt);
   }
 
   function handleSubmit(evt) {
@@ -22,6 +31,26 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
     });
   }
 
+  function checkTitleInputValidity(evt) {
+    if (!evt.target.validity.valid) {
+      setIsTitleInputValid(false);
+      setTitleErrorMessage(evt.target.validationMessage);
+    } else {
+      setIsTitleInputValid(true);
+      setTitleErrorMessage('');
+    }
+  }
+
+  function checkLinkInputValidity(evt) {
+    if (!evt.target.validity.valid) {
+      setIsLinkInputValid(false);
+      setLinkErrorMessage(evt.target.validationMessage);
+    } else {
+      setIsLinkInputValid(true);
+      setLinkErrorMessage('');
+    }
+  }
+
   return (
     <PopupWithForm
       title="New Place"
@@ -30,6 +59,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText={`${isLoading ? 'Saving' : 'Save'}`}
+      isInvalid={!(isTitleInputValid && isLinkInputValid)}
     >
       <label className="popup__label">
         <input
@@ -42,9 +72,12 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
           value={cardName}
           placeholder="Title"
           required
-          onChange={handlePlaceChange}
+          onChange={evt => handleChange(evt, setCardName, checkTitleInputValidity)}
         />
-        <span id="title-input-error" className="popup__input-error"></span>
+        <span
+     className={`popup__input-error ${!isTitleInputValid && 'popup__error_visible'}`}>
+          {titleErrorMessage}
+          </span>
       </label>
       <label className="popup__label">
         <input
@@ -55,10 +88,12 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
           name="link"
           placeholder="Image link"
           required
-          onChange={handlelinkChange}
+          onChange={evt => handleChange(evt, setLink, checkLinkInputValidity)}
         />
-        <span id="link-input-error" className="popup__input-error"></span>
-      </label>
+<span
+     className={`popup__input-error ${!isLinkInputValid && 'popup__error_visible'}`}>
+          {linkErrorMessage}
+          </span>      </label>
     </PopupWithForm>
   );
 };
