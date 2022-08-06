@@ -3,7 +3,7 @@ import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+// import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
@@ -20,6 +20,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
@@ -73,15 +74,19 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    setIsLoading(true);
     api.deleteCard(card._id).then(() => {
+      setIsLoading(false);
       setCards(cards.filter((stateCard) => stateCard !== card));
     });
   }
 
   function handleUpdateUser({ name, about }) {
+    setIsLoading(false);
     api
       .editProfile({ name, about })
       .then((res) => {
+        setIsLoading(true);
         setCurrentUser({
           name: res.name,
           about: res.about,
@@ -96,9 +101,11 @@ function App() {
   }
 
   function handleUpdateAvatar({ avatar }) {
+    setIsLoading(false)
     api
       .setUserAvatar(avatar)
       .then((res) => {
+        setIsLoading(true);
         setCurrentUser({
           ...currentUser,
           avatar: res.avatar,
@@ -111,11 +118,13 @@ function App() {
   }
 
   function handleAddPlaceSubmit(name, url) {
+    setIsLoading(false)
     api
       .addCard(name, url)
       .then((res) => {
         //console.log(res)
-        setCards([res, ...cards]); //res.data
+        setIsLoading(true);
+        setCards([res, ...cards]); 
       })
       .catch(() => console.log("something went wrong"))
       .finally(() => {
@@ -128,6 +137,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsLoading(true);
   }
 
   return (
@@ -148,58 +158,31 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
         />
-
-        {/* <PopupWithForm
-          title="New Place"
-          name="new-place"
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <label className="popup__label">
-            <input
-              className="popup__input popup__input_type_title"
-              id="title-input"
-              type="text"
-              minLength="1"
-              maxLength="30"
-              name="name"
-              placeholder="Title"
-              required
-            />
-            <span id="title-input-error" className="popup__input-error"></span>
-          </label>
-          <label className="popup__label">
-            <input
-              className="popup__input popup__input_type_link"
-              id="link-input"
-              type="url"
-              name="link"
-              placeholder="Image link"
-              required
-            />
-            <span id="link-input-error" className="popup__input-error"></span>
-          </label>
-        </PopupWithForm> */}
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlaceSubmit={handleAddPlaceSubmit}
+          isLoading={isLoading}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
         />
 
-        <PopupWithForm
+        {/* <PopupWithForm
           title="Are you sure?"
           name="delete-confirm"
           buttonText="Yes"
           onClose={closeAllPopups}
-        ></PopupWithForm>
+          // isLoading={isLoading}
+        ></PopupWithForm> */}
+        
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 

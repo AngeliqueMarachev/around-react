@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = React.useRef();
 
     function handleSubmit(evt) {
@@ -9,7 +9,6 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar }) {
     evt.preventDefault();
 
     onUpdateAvatar({
-    //   avatar: avatarRef.current.value,
         avatar: avatarValue
     });
   }
@@ -21,6 +20,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText={`${isLoading ? 'Saving' : 'Save'}`}
     >
       <label className="popup__label">
         <input

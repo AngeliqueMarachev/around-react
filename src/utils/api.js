@@ -91,14 +91,6 @@ class Api {
             headers: this._headers,
         }).then(res => this._checkResponse(res));
     }
-
-    // changeLikeCardStatus(cardId, isLiked) {
-    //     if (!isLiked) {
-    //         return this.removeLike(cardId)
-    //     } else {
-    //         return this.likeCard(cardId);
-    //     }
-    //  }
 };
 
 

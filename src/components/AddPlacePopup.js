@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
   const [cardName, setCardName] = React.useState("");
   const [link, setLink] = React.useState("");
 
@@ -29,6 +29,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText={`${isLoading ? 'Saving' : 'Save'}`}
     >
       <label className="popup__label">
         <input
