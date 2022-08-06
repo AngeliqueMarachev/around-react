@@ -10,6 +10,7 @@ import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeletePopup from "./DeletePopup"
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -35,10 +36,6 @@ function App() {
       .getCardsList()
       .then((data) => {
         setCards(data);
-        // .getCardsList()
-        // .then(res => {
-        // const formattedCards = res.map((card) => ({title: card.name, url: card.link, etc}))
-        //   setCards(formattedCards);
       })
       .catch(() => console.log("something went wrong"));
   }, []);
@@ -76,17 +73,20 @@ function App() {
   function handleCardDelete(card) {
     setIsLoading(true);
     api.deleteCard(card._id).then(() => {
-      setIsLoading(false);
       setCards(cards.filter((stateCard) => stateCard !== card));
+    })
+    .catch(() => console.log("something went wrong"))
+    .finally(() => {
+      closeAllPopups();
+      setIsLoading(false);
     });
   }
 
   function handleUpdateUser({ name, about }) {
-    setIsLoading(false);
+    setIsLoading(true);
     api
       .editProfile({ name, about })
       .then((res) => {
-        setIsLoading(true);
         setCurrentUser({
           name: res.name,
           about: res.about,
@@ -97,15 +97,15 @@ function App() {
       .catch(() => console.log("something went wrong"))
       .finally(() => {
         closeAllPopups();
+        setIsLoading(false);
       });
   }
 
   function handleUpdateAvatar({ avatar }) {
-    setIsLoading(false)
+    setIsLoading(true)
     api
       .setUserAvatar(avatar)
       .then((res) => {
-        setIsLoading(true);
         setCurrentUser({
           ...currentUser,
           avatar: res.avatar,
@@ -114,21 +114,22 @@ function App() {
       .catch(() => console.log("something went wrong"))
       .finally(() => {
         closeAllPopups();
+        setIsLoading(false);
       });
   }
 
   function handleAddPlaceSubmit(name, url) {
-    setIsLoading(false)
+    setIsLoading(true)
     api
       .addCard(name, url)
       .then((res) => {
         //console.log(res)
-        setIsLoading(true);
         setCards([res, ...cards]); 
       })
       .catch(() => console.log("something went wrong"))
       .finally(() => {
         closeAllPopups();
+        setIsLoading(false);
       });
   }
 
