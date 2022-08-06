@@ -3,6 +3,8 @@ import PopupWithForm from "./PopupWithForm";
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = React.useRef();
+  const [isUrlInputValid, setIsUrlInputValid] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
     function handleSubmit(evt) {
       const avatarValue = avatarRef.current.value
@@ -11,8 +13,18 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
     onUpdateAvatar({
         avatar: avatarValue
     });
-  }
+    }
 
+  function checkInputValidity(evt) {
+    if (!evt.target.validity.valid) {
+      setIsUrlInputValid(false);
+      setErrorMessage(evt.target.validationMessage);
+    } else {
+      setIsUrlInputValid(true);
+      setErrorMessage('');
+    }
+  }
+    
   return (
     <PopupWithForm
       title="Change profile picture"
@@ -20,6 +32,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isInvalid={!isUrlInputValid}
       buttonText={`${isLoading ? 'Saving' : 'Save'}`}
     >
       <label className="popup__label">
@@ -31,8 +44,13 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
           placeholder="Picture link"
           required
           ref={avatarRef}
+          onChange={checkInputValidity}
         />
-        <span id="avatar-input-error" className="popup__input-error"></span>
+        <span
+          id="avatar-input-error"
+          className={`popup__input-error ${!isUrlInputValid && 'popup__error_visible'}`}>
+          {errorMessage}
+        </span>
       </label>
     </PopupWithForm>
   );

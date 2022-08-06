@@ -18,7 +18,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
 
     onAddPlaceSubmit({
       name: cardName,
-      link: link,
+      link: link, 
     });
   }
 

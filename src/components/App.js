@@ -3,14 +3,14 @@ import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-// import PopupWithForm from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import DeletePopup from "./DeletePopup"
+// import DeletePopup from "./DeletePopup"
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -176,13 +176,13 @@ function App() {
           isLoading={isLoading}
         />
 
-        {/* <PopupWithForm
+        <PopupWithForm
           title="Are you sure?"
           name="delete-confirm"
           buttonText="Yes"
           onClose={closeAllPopups}
           // isLoading={isLoading}
-        ></PopupWithForm> */}
+        ></PopupWithForm>
         
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
