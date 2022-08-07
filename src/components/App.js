@@ -10,7 +10,6 @@ import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-// import DeletePopup from "./DeletePopup"
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -181,7 +180,6 @@ function App() {
           name="delete-confirm"
           buttonText="Yes"
           onClose={closeAllPopups}
-          // isLoading={isLoading}
         ></PopupWithForm>
         
 

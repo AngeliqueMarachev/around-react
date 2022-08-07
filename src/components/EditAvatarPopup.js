@@ -1,19 +1,24 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+export default function EditAvatarPopup({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+  isLoading,
+}) {
   const avatarRef = React.useRef();
   const [isUrlInputValid, setIsUrlInputValid] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-    function handleSubmit(evt) {
-      const avatarValue = avatarRef.current.value
+  function handleSubmit(evt) {
+    const avatarValue = avatarRef.current.value;
     evt.preventDefault();
 
     onUpdateAvatar({
-        avatar: avatarValue
+      avatar: avatarValue,
     });
-    }
+  }
 
   function checkInputValidity(evt) {
     if (!evt.target.validity.valid) {
@@ -21,10 +26,10 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
       setErrorMessage(evt.target.validationMessage);
     } else {
       setIsUrlInputValid(true);
-      setErrorMessage('');
+      setErrorMessage("");
     }
   }
-    
+
   return (
     <PopupWithForm
       title="Change profile picture"
@@ -33,7 +38,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
       onClose={onClose}
       onSubmit={handleSubmit}
       isInvalid={!isUrlInputValid}
-      buttonText={`${isLoading ? 'Saving' : 'Save'}`}
+      buttonText={`${isLoading ? "Saving" : "Save"}`}
     >
       <label className="popup__label">
         <input
@@ -48,7 +53,10 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateAvatar, isLo
         />
         <span
           id="avatar-input-error"
-          className={`popup__input-error ${!isUrlInputValid && 'popup__error_visible'}`}>
+          className={`popup__input-error ${
+            !isUrlInputValid && "popup__error_visible"
+          }`}
+        >
           {errorMessage}
         </span>
       </label>
