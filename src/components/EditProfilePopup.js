@@ -1,16 +1,20 @@
 import React from "react";
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
+export default function EditProfilePopup({
+  isOpen,
+  onClose,
+  onUpdateUser,
+  isLoading,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [isNameInputValid, setIsNameInputValid] = React.useState(false);
   const [isAboutInputValid, setIsAboutInputValid] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
-  const [aboutErrorMessage, setAboutErrorMessage] = React.useState('');
-
+  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const [aboutErrorMessage, setAboutErrorMessage] = React.useState("");
 
   // function handleNameChange(evt) {
   //   setName(evt.target.value);
@@ -24,7 +28,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
     stateUpdater(evt.target.value);
     validityUpdater(evt);
   }
-  
+
   function handleSubmit(evt) {
     // Prevent the browser from navigating to the form address
     evt.preventDefault();
@@ -42,7 +46,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
       setNameErrorMessage(evt.target.validationMessage);
     } else {
       setIsNameInputValid(true);
-      setNameErrorMessage('');
+      setNameErrorMessage("");
     }
   }
 
@@ -52,7 +56,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
       setAboutErrorMessage(evt.target.validationMessage);
     } else {
       setIsAboutInputValid(true);
-      setAboutErrorMessage('');
+      setAboutErrorMessage("");
     }
   }
 
@@ -69,7 +73,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText={`${isLoading ? 'Saving' : 'Save'}`}
+      buttonText={`${isLoading ? "Saving" : "Save"}`}
       isInvalid={!(isNameInputValid && isAboutInputValid)}
     >
       <label className="popup__label">
@@ -83,11 +87,14 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
           value={name || ""}
           placeholder="Name"
           required
-          onChange={evt => handleChange(evt, setName, checkNameInputValidity)}
+          onChange={(evt) => handleChange(evt, setName, checkNameInputValidity)}
         />
         <span
           id="avatar-input-error"
-          className={`popup__input-error ${!isNameInputValid && 'popup__error_visible'}`}>
+          className={`popup__input-error ${
+            !isNameInputValid && "popup__error_visible"
+          }`}
+        >
           {nameErrorMessage}
         </span>
       </label>
@@ -102,11 +109,16 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
           value={description || ""}
           placeholder="About me"
           required
-          onChange={evt => handleChange(evt, setDescription, checkAboutInputValidity)}
+          onChange={(evt) =>
+            handleChange(evt, setDescription, checkAboutInputValidity)
+          }
         />
         <span
           id="avatar-input-error"
-          className={`popup__input-error ${!isAboutInputValid && 'popup__error_visible'}`}>
+          className={`popup__input-error ${
+            !isAboutInputValid && "popup__error_visible"
+          }`}
+        >
           {aboutErrorMessage}
         </span>
       </label>

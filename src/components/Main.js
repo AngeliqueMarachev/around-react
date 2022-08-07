@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({
   onEditProfileClick,
@@ -12,14 +12,11 @@ function Main({
   onCardLike,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-  
+
   return (
     <main className="page__content">
       <section className="profile">
-        <div
-          className="profile__avatar-container"
-          onClick={onEditAvatarClick}
-        >
+        <div className="profile__avatar-container" onClick={onEditAvatarClick}>
           <img
             className="profile__avatar"
             id="avatar"
@@ -50,7 +47,7 @@ function Main({
           {cards.map((card) => (
             <Card
               key={card._id}
-              card={card} 
+              card={card}
               onCardClick={onCardClick}
               onCardDelete={onCardDelete}
               onCardLike={onCardLike}

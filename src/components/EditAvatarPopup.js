@@ -7,18 +7,31 @@ export default function EditAvatarPopup({
   onUpdateAvatar,
   isLoading,
 }) {
-  const avatarRef = React.useRef();
+  // const avatarRef = React.useRef();
+  const [isAvatar, setIsAvatar] = React.useState("");
   const [isUrlInputValid, setIsUrlInputValid] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
+  function handleChange(evt, stateUpdater, validityUpdater) {
+    stateUpdater(evt.target.value);
+    validityUpdater(evt);
+  }
+
   function handleSubmit(evt) {
-    const avatarValue = avatarRef.current.value;
+    // const avatarValue = avatarRef.current.value;
     evt.preventDefault();
 
     onUpdateAvatar({
-      avatar: avatarValue,
+      // avatar: avatarValue,
+      avatar: isAvatar,
     });
   }
+
+  // Reset Form
+  React.useEffect(() => {
+    setIsAvatar("");
+    setErrorMessage("");
+  }, [isOpen]);
 
   function checkInputValidity(evt) {
     if (!evt.target.validity.valid) {
@@ -48,8 +61,10 @@ export default function EditAvatarPopup({
           name="avatar"
           placeholder="Picture link"
           required
-          ref={avatarRef}
-          onChange={checkInputValidity}
+          // ref={avatarRef}
+          // onChange={checkInputValidity}
+          value={isAvatar}
+          onChange={(evt) => handleChange(evt, setIsAvatar, checkInputValidity)}
         />
         <span
           id="avatar-input-error"

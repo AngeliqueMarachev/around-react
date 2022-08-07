@@ -1,13 +1,18 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
+export default function AddPlacePopup({
+  isOpen,
+  onClose,
+  onAddPlaceSubmit,
+  isLoading,
+}) {
   const [cardName, setCardName] = React.useState("");
   const [link, setLink] = React.useState("");
   const [isTitleInputValid, setIsTitleInputValid] = React.useState(false);
   const [isLinkInputValid, setIsLinkInputValid] = React.useState(false);
-  const [titleErrorMessage, setTitleErrorMessage] = React.useState('');
-  const [linkErrorMessage, setLinkErrorMessage] = React.useState('');
+  const [titleErrorMessage, setTitleErrorMessage] = React.useState("");
+  const [linkErrorMessage, setLinkErrorMessage] = React.useState("");
 
   // function handlePlaceChange(evt) {
   //   setCardName(evt.target.value);
@@ -27,9 +32,17 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
 
     onAddPlaceSubmit({
       name: cardName,
-      link: link, 
+      link: link,
     });
   }
+
+  // Reset Form
+  React.useEffect(() => {
+    setCardName("");
+    setLink("");
+    setTitleErrorMessage("");
+    setLinkErrorMessage("");
+  }, [isOpen]);
 
   function checkTitleInputValidity(evt) {
     if (!evt.target.validity.valid) {
@@ -37,7 +50,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
       setTitleErrorMessage(evt.target.validationMessage);
     } else {
       setIsTitleInputValid(true);
-      setTitleErrorMessage('');
+      setTitleErrorMessage("");
     }
   }
 
@@ -47,7 +60,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
       setLinkErrorMessage(evt.target.validationMessage);
     } else {
       setIsLinkInputValid(true);
-      setLinkErrorMessage('');
+      setLinkErrorMessage("");
     }
   }
 
@@ -58,7 +71,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText={`${isLoading ? 'Saving' : 'Save'}`}
+      buttonText={`${isLoading ? "Saving..." : "Save"}`}
       isInvalid={!(isTitleInputValid && isLinkInputValid)}
     >
       <label className="popup__label">
@@ -72,12 +85,17 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
           value={cardName}
           placeholder="Title"
           required
-          onChange={evt => handleChange(evt, setCardName, checkTitleInputValidity)}
+          onChange={(evt) =>
+            handleChange(evt, setCardName, checkTitleInputValidity)
+          }
         />
         <span
-     className={`popup__input-error ${!isTitleInputValid && 'popup__error_visible'}`}>
+          className={`popup__input-error ${
+            !isTitleInputValid && "popup__error_visible"
+          }`}
+        >
           {titleErrorMessage}
-          </span>
+        </span>
       </label>
       <label className="popup__label">
         <input
@@ -88,12 +106,16 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoa
           name="link"
           placeholder="Image link"
           required
-          onChange={evt => handleChange(evt, setLink, checkLinkInputValidity)}
+          onChange={(evt) => handleChange(evt, setLink, checkLinkInputValidity)}
         />
-<span
-     className={`popup__input-error ${!isLinkInputValid && 'popup__error_visible'}`}>
+        <span
+          className={`popup__input-error ${
+            !isLinkInputValid && "popup__error_visible"
+          }`}
+        >
           {linkErrorMessage}
-          </span>      </label>
+        </span>{" "}
+      </label>
     </PopupWithForm>
   );
-};
+}

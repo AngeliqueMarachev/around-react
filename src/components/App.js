@@ -24,17 +24,13 @@ function App() {
 
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
-      setCurrentUser({
-        name: res.name,
-        about: res.about,
-        avatar: res.avatar,
-        _id: res._id,
-      });
-    });
+      setCurrentUser(res)
+    })
+      .catch(() => console.log("something went wrong"));
     api
       .getCardsList()
       .then((data) => {
-        setCards(data);
+        setCards(data)
       })
       .catch(() => console.log("something went wrong"));
   }, []);
@@ -60,25 +56,30 @@ function App() {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
     // Send a request to the API and getting the updated card data
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch(() => console.log("something went wrong"));
   }
 
   function handleCardDelete(card) {
     setIsLoading(true);
-    api.deleteCard(card._id).then(() => {
-      setCards(cards.filter((stateCard) => stateCard !== card));
-    })
-    .catch(() => console.log("something went wrong"))
-    .finally(() => {
-      closeAllPopups();
-      setIsLoading(false);
-    });
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((stateCard) => stateCard !== card));
+        closeAllPopups();
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+      .catch(() => console.log("something went wrong"));
   }
 
   function handleUpdateUser({ name, about }) {
@@ -86,48 +87,43 @@ function App() {
     api
       .editProfile({ name, about })
       .then((res) => {
-        setCurrentUser({
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-          _id: res._id,
-        });
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
       .catch(() => console.log("something went wrong"))
-      .finally(() => {
-        closeAllPopups();
-        setIsLoading(false);
-      });
   }
 
   function handleUpdateAvatar({ avatar }) {
-    setIsLoading(true)
+    setIsLoading(true);
     api
       .setUserAvatar(avatar)
       .then((res) => {
         setCurrentUser({
           ...currentUser,
           avatar: res.avatar,
-        });
+        })
+        closeAllPopups();
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
       .catch(() => console.log("something went wrong"))
-      .finally(() => {
-        closeAllPopups();
-        setIsLoading(false);
-      });
   }
 
   function handleAddPlaceSubmit(name, url) {
-    setIsLoading(true)
+    setIsLoading(true);
     api
       .addCard(name, url)
       .then((res) => {
         //console.log(res)
-        setCards([res, ...cards]); 
+        setCards([res, ...cards]);
+        closeAllPopups();
       })
       .catch(() => console.log("something went wrong"))
       .finally(() => {
-        closeAllPopups();
         setIsLoading(false);
       });
   }
@@ -137,8 +133,17 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setIsLoading(true);
   }
+
+  React.useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+    document.addEventListener("keydown", closeByEscape);
+    return () => document.removeEventListener("keydown", closeByEscape);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -181,7 +186,6 @@ function App() {
           buttonText="Yes"
           onClose={closeAllPopups}
         ></PopupWithForm>
-        
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
