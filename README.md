@@ -23,8 +23,7 @@ The user can:
 
 **Figma**
 
-This project was designed according to brief provided on Figma: 
-## [Link to Figma file](https://www.figma.com/file/SurN1jaeEQIhuZEDMhmWWf/Sprint-4-Around-The-U.S.-desktop-mobile?node-id=0%3A1)
+This project was designed according to brief provided on [Figma](https://www.figma.com/file/SurN1jaeEQIhuZEDMhmWWf/Sprint-4-Around-The-U.S.-desktop-mobile?node-id=0%3A1)
 
 ## Technologies
   
