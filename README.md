@@ -1,12 +1,25 @@
-# Project 11: Around The U.S. Part 3
+# Around The U.S
 
-### Overview
+This project was bootstrapped with Create React App.
+
+## Overview
+
+* Introduction
+* Features
+* Languages & Techniques
+* Images
+* Possible Improvements
+* Deployed Project
+
+## Introduction
+
+This project is responsive, interactive application which allows user to change their name, occupation and avatar, and upload and like photo's.
 
 ### Features
-This project has been built using React with a focus on a great UI/UX. All the elements are displayed correctly on popular screen sizes - 1280 / 768 / 320.
+This project was built using React with a focus on a great UI/UX. All the elements are displayed correctly on popular screen sizes - 1280 / 768 / 320.
 The user can:
 1. edit profile picture and name
-2. add, like and delete posts
+2. add, and like posts
 
 **Figma**
 
@@ -16,17 +29,24 @@ This project was designed according to brief provided on Figma:
 ## Technologies
   
 This is a project by Angelique Marachev created using the following:
- -  HTML
- - CSS 
+ - HTML
+ - CSS3 
  - JavaScript
  - React
  - Webpack
- - API
+ - REST API requests
+ - ReactJS
+ - React Hooks (useState, useEffect, useRef)
+ - React Global State (createContext)
+ - React Functional Components
+ - Grid, flex, forms, animation
+ - Adaptive layout
+ - Flat BEM file structure
+ - OOP
+ - Webpack, babel, postcss
+ - DOM manipulation
 
-## Plan on improving the project
 
-In the future, I plan on using ths implementation to create a 100% unique project for my portfolio.
-
-## Published link
+## Deployed Project
  
-## [This project has been published at the following link:](https://AngeliqueMarachev.github.io/around-react)
+## [Published project](https://AngeliqueMarachev.github.io/around-react)
