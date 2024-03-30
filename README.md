@@ -47,5 +47,4 @@ This is a project by Angelique Marachev created using the following:
 
 
 ## Deployed Project
- 
-## [Published project](https://AngeliqueMarachev.github.io/around-react)
+ [Published project](https://AngeliqueMarachev.github.io/around-react)
